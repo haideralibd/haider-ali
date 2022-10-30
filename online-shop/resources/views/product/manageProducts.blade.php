@@ -21,7 +21,10 @@
             @foreach ($products as $product)
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
-                <td>Thumbnail photo</td>
+                <td>
+                    <img class='img-fluid' src="{{ url('storage/'.$product->thumbnail) }}" alt="{{ $product->title }}"
+                        style='width: 60px; height: 55px;'>
+                </td>
                 <td>{{ $product->title }}</td>
                 <td>{!! \Illuminate\Support\Str::limit($product->description, 50, '...') !!}</td>
                 <td>{{ $product->price }}</td>
