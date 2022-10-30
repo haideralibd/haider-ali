@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -15,7 +16,7 @@ class ProductController extends Controller
         $products = Product::with('subcategory')->get();
         $categories = Category::get();
         $subcategories = Subcategory::get();
-        
+
         return view('product.manageProducts', [
             'products' => $products,
             'categories' => $categories,
@@ -51,5 +52,20 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('products.manage'); 
+    }
+
+    public function destroy(Request $request)
+    {
+        $product = Product::findOrFail($request->productId);
+
+        if ($product) {            
+            Storage::disk('public')->delete($product->thumbnail);
+            
+            $product->delete();
+
+            return redirect()->route('products.manage'); 
+        }
+
+        return response('Not found.', 400);
     }
 }

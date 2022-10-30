@@ -27,7 +27,7 @@
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->subcategory->title }}</td>
                 <td>
-                    <form action="#" method="post">
+                    <form action="/admin/products/manage/delete/{{ $product->id }}" method="post">
                         @csrf
                         <button type="submit" class="btn btn-danger btn-group-sm">Delete</button>
                     </form>
