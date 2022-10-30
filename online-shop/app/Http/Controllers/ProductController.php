@@ -82,9 +82,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getFilteredByCategory($categoryId, Request $request)
+    public function getFilteredByCategory(Request $request)
     {
-        
+        dd($request->all());
     }
 
     public function searchProduct(Request $request)

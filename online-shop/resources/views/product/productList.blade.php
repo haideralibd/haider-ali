@@ -3,6 +3,15 @@
 @section('product-lisit')
 <div class="d-flex m-5">
     <div>
+        <select class="form-select" aria-label="Default select example" id="category-filter" onchange="onCategoryChange()">
+            <option selected>Select Category</option>
+            @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->title }}
+            </option>
+            @endforeach
+        </select>
+    </div>
+    <div>
         <form action="/admin/products/search" method="post" onsubmit="return onSearch(This);">
             @csrf
             <input type="text" name="search">
@@ -29,7 +38,16 @@
 </div>
 @endsection
 
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script>
+    var config = {
+        routes: {
+
+            sub_category_filter: "{!! route('products.category.filter') !!}",
+
+        }
+    };
+
     function onSearch(form) {
 
         var ajax = new XMLHttpRequest();
@@ -41,5 +59,19 @@
         ajax.send(formData);
 
         return false;
-    }
+    };
+
+    function onCategoryChange(form) {
+        var category = $("#category-filter").val();
+
+        $.ajax({
+            url: config.routes.sub_category_filter,
+            method: "POST",
+            data: {
+                category: category,
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+        });
+    };
 </script>
