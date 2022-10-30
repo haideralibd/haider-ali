@@ -50,7 +50,7 @@
                     <div class="md-form">
                         <i class="fas fa-pencil prefix grey-text"></i>
                         <label data-error="wrong" data-success="right" for="description">Description</label>
-                        <textarea type="text" name="description" id="description" class="md-textarea form-control" rows="4" required></textarea>
+                        <textarea name="description" id="description" class="md-textarea form-control" rows="4"></textarea>
                     </div>
 
                     <div class="md-form">
@@ -66,3 +66,16 @@
     </div>
 </div>
 </div>
+
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#description'))
+        .then(editor => {
+            console.log(editor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>

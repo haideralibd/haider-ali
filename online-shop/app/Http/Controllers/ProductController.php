@@ -8,6 +8,7 @@ use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Mews\Purifier\Facades\Purifier;
 
 class ProductController extends Controller
 {
@@ -28,7 +29,7 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:100',
-            'description' => 'required|max:1000',
+            'description' => 'required|max:10000',
             'subcategory' => 'required|integer',
             'price' => 'required|integer',
             'thumbnail' => 'required|mimes:jpg,jpeg,png|max:1000',
@@ -43,9 +44,11 @@ class ProductController extends Controller
             $thumbnail = $request->file('thumbnail')->store('images/thumbnails', 'public');
         }
 
+        $description = Purifier::clean($request->description);
+
         Product::create([
             'title' => $request->name,
-            'description' => $request->description,
+            'description' => $description,
             'subcategory_id' => $request->subcategory,
             'price' => $request->price,
             'thumbnail' => $thumbnail,
