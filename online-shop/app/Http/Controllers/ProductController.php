@@ -35,11 +35,11 @@ class ProductController extends Controller
             'thumbnail' => 'required|mimes:jpg,jpeg,png|max:1000',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response('Wrong input.', 400);
         }
 
-        if($request->hasFile('thumbnail')){
+        if ($request->hasFile('thumbnail')) {
 
             $thumbnail = $request->file('thumbnail')->store('images/thumbnails', 'public');
         }
@@ -54,25 +54,25 @@ class ProductController extends Controller
             'thumbnail' => $thumbnail,
         ]);
 
-        return redirect()->route('products.manage'); 
+        return redirect()->route('products.manage');
     }
 
     public function destroy(Request $request)
     {
         $product = Product::findOrFail($request->productId);
 
-        if ($product) {            
+        if ($product) {
             Storage::disk('public')->delete($product->thumbnail);
-            
+
             $product->delete();
 
-            return redirect()->route('products.manage'); 
+            return redirect()->route('products.manage');
         }
 
         return response('Not found.', 400);
     }
 
-    public function showProductList(Request $request) 
+    public function showProductList(Request $request)
     {
         $products = Product::with('subcategory')->get();
         $categories = Category::get();
@@ -87,7 +87,36 @@ class ProductController extends Controller
 
     public function getFilteredByCategory(Request $request)
     {
-        dd($request->all());
+        $categoryId = $request->categoryId;
+
+        $categories = Subcategory::where('category_id', $categoryId)->get();
+
+        $categoriesIds = [];
+        foreach ($categories as $category) {
+
+            $categoriesIds[] = $category->id;
+        }
+
+        $productList = Product::with('subcategory')->whereIn('subcategory_id', $categoriesIds)->get();
+
+        return response()->json([
+            'success'     => true,
+            'productList' => $productList,
+
+        ]);
+    }
+    public function getFilteredBySubCategory(Request $request)
+    {
+
+        $subCategoryId = $request->subCategoryId;
+
+        $productList = Product::with('subcategory')->where('subcategory_id', $subCategoryId)->get();
+
+        return response()->json([
+            'success'     => true,
+            'productList' => $productList,
+
+        ]);
     }
 
     public function searchProduct(Request $request)
