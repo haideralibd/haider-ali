@@ -74,6 +74,7 @@
 
         <main class="py-4">
             @yield('content')
+            @yield('manage-product-table')
         </main>
     </div>
 </body>

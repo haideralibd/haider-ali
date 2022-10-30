@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::group(
+    [
+        'middleware'  => ['auth', 'admin'],
+        'prefix' => 'admin',
+    ],
+    function () {
+        Route::get('/products/manage', [ProductController::class, 'index'])->name('products.manage');
+    }
+);
