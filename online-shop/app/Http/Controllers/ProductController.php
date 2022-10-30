@@ -31,7 +31,7 @@ class ProductController extends Controller
 
             $thumbnail = $request->file('thumbnail')->store('images/thumbnails', 'public');
         }
-        
+
         Product::create([
             'title' => $request->name,
             'description' => $request->description,
@@ -40,6 +40,6 @@ class ProductController extends Controller
             'thumbnail' => $thumbnail,
         ]);
 
-        return response('Product added successfully.', 200);
+        return redirect()->route('products.manage'); 
     }
 }
