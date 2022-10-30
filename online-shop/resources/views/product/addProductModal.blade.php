@@ -23,10 +23,9 @@
                         <select name="category" id="category" class="form-control" required>
                             <option value="">Select
                             </option>
-                            <option value=1>Book
-                            </option>
-                            <option value=2>Cycle
-                            </option>
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -36,10 +35,9 @@
                         <select name="subcategory" id="subcategory" class="form-control" required>
                             <option value="">Select
                             </option>
-                            <option value=1>Book
-                            </option>
-                            <option value=2>Cycle
-                            </option>
+                            @foreach ($subcategories as $subcategory)
+                            <option value="{{ $category->id }}">{{ $subcategory->title }}</option>
+                            @endforeach
                         </select>
                     </div>
 
