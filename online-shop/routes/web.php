@@ -34,7 +34,8 @@ Route::group(
         Route::post('/products/manage/delete/', [ProductController::class, 'destroy'])->name('products.manage.delete');
         Route::get('/product/list', [ProductController::class, 'showProductList'])->name('product.list');
 
-        Route::get('/products/category/filter/', [ProductController::class, 'getFilteredByCategory'])->name('products.category.filter');
+        Route::post('/products/category/filter/', [ProductController::class, 'getFilteredByCategory'])->name('products.category.filter');
+        Route::post('/products/subcategory/filter/', [ProductController::class, 'getFilteredBySubCategory'])->name('products.subcategory.filter');
         Route::post('/products/search', [ProductController::class, 'searchProduct'])->name('products.search');
     }
 );
