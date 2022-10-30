@@ -68,4 +68,35 @@ class ProductController extends Controller
 
         return response('Not found.', 400);
     }
+
+    public function showProductList(Request $request) 
+    {
+        $products = Product::with('subcategory')->get();
+        $categories = Category::get();
+        $subcategories = Subcategory::get();
+
+        return view('product.productList', [
+            'products' => $products,
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+        ]);
+    }
+
+    public function getFilteredByCategory($categoryId, Request $request)
+    {
+        
+    }
+
+    public function searchProduct(Request $request)
+    {
+        $products = Product::with('subcategory')->where('title', 'LIKE', $request->search)->get();
+        $categories = Category::get();
+        $subcategories = Subcategory::get();
+
+        return view('product.productList', [
+            'products' => $products,
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+        ]);
+    }
 }
