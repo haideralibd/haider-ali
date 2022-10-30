@@ -29,8 +29,9 @@
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->subcategory->title }}</td>
                 <td>
-                    <form action="/admin/products/manage/delete/{{ $product->id }}" method="post">
+                    <form action="/admin/products/manage/delete/" method="post" onsubmit="return onDelete(This);">
                         @csrf
+                        <input type="hidden" value={{ $product->id }} name="productId">
                         <button type="submit" class="btn btn-danger btn-group-sm">Delete</button>
                     </form>
                 </td>
@@ -42,3 +43,18 @@
 @include('product.addProductModal')
 
 @endsection
+
+<script>
+    function onDelete(form) {
+
+        var ajax = new XMLHttpRequest();
+
+        ajax.open("POST", form.getAttribute("action"), true);
+
+        var formData = new FormData(form);
+
+        ajax.send(formData);
+
+        return false;
+    };
+</script>
