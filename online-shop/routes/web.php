@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,25 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::group(
+    [
+        'middleware'  => ['auth', 'admin'],
+        'prefix' => 'admin',
+    ],
+    function () {
+        Route::get('/products/manage', [ProductController::class, 'index'])->name('products.manage');
+        Route::post('/products/manage/store', [ProductController::class, 'store'])->name('products.manage.store');
+        Route::post('/products/manage/delete/', [ProductController::class, 'destroy'])->name('products.manage.delete');
+        Route::get('/product/list', [ProductController::class, 'showProductList'])->name('product.list');
+
+        Route::post('/products/category/filter/', [ProductController::class, 'getFilteredByCategory'])->name('products.category.filter');
+        Route::post('/products/subcategory/filter/', [ProductController::class, 'getFilteredBySubCategory'])->name('products.subcategory.filter');
+        Route::post('/products/search', [ProductController::class, 'searchProduct'])->name('products.search');
+    }
+);
