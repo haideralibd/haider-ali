@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -10,7 +12,15 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return view('product.manageProducts');
+        $products = Product::with('subcategory')->get();
+        $categories = Category::get();
+        $subcategories = Subcategory::get();
+        
+        return view('product.manageProducts', [
+            'products' => $products,
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+        ]);
     }
 
     public function store(Request $request)

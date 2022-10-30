@@ -18,24 +18,22 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($products as $product)
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{ $loop->iteration }}</th>
+                <td>Thumbnail photo</td>
+                <td>{{ $product->title }}</td>
+                <td>{!! \Illuminate\Support\Str::limit($product->description, 50, '...') !!}</td>
+                <td>{{ $product->price }}</td>
+                <td>{{ $product->subcategory->title }}</td>
+                <td>
+                    <form action="#" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-group-sm">Delete</button>
+                    </form>
+                </td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
