@@ -30,5 +30,6 @@ Route::group(
     ],
     function () {
         Route::get('/products/manage', [ProductController::class, 'index'])->name('products.manage');
+        Route::post('/products/manage/store', [ProductController::class, 'store'])->name('products.manage.store');
     }
 );
